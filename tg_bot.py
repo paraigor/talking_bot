@@ -4,7 +4,6 @@ from environs import Env
 from google.cloud import dialogflow
 from telegram import Update
 from telegram.ext import (
-    CallbackContext,
     CommandHandler,
     Filters,
     MessageHandler,
@@ -14,11 +13,11 @@ from telegram.ext import (
 logger = logging.getLogger(__name__)
 
 
-def start(update: Update, context: CallbackContext):
+def start(update: Update, context):
     update.message.reply_text("Здравствуйте!")
 
 
-def echo(update: Update, context: CallbackContext):
+def echo(update: Update, context):
     text_input = dialogflow.TextInput(
         text=update.message.text, language_code="ru"
     )
@@ -30,13 +29,21 @@ def echo(update: Update, context: CallbackContext):
     update.message.reply_text(response.query_result.fulfillment_text)
 
 
-def main():
+if __name__ == "__main__":
     logging.basicConfig(
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         level=logging.INFO,
     )
 
-    updater = Updater(tg_bot_token, use_context=True)
+    env = Env()
+    env.read_env()
+    tg_bot_token = env.str("TG_BOT_TOKEN")
+    google_project_id = env.str("GOOGLE_PROJECT_ID")
+
+    session_client = dialogflow.SessionsClient()
+    session = session_client.session_path(google_project_id, tg_bot_token[21:])
+
+    updater = Updater(tg_bot_token)
     dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(
@@ -45,14 +52,3 @@ def main():
 
     updater.start_polling()
     updater.idle()
-
-
-if __name__ == "__main__":
-    env = Env()
-    env.read_env()
-    tg_bot_token = env.str("TG_BOT_TOKEN")
-    google_project_id = env.str("GOOGLE_PROJECT_ID")
-
-    session_client = dialogflow.SessionsClient()
-    session = session_client.session_path(google_project_id, tg_bot_token)
-    main()
