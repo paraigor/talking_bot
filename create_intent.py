@@ -39,5 +39,3 @@ intent = dialogflow.Intent(
 response = intents_client.create_intent(
     request={"parent": parent, "intent": intent}
 )
-
-print(response)
