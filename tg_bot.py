@@ -10,7 +10,18 @@ from telegram.ext import (
     Updater,
 )
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__file__)
+
+
+class TgLogHandler(logging.Handler):
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 def start(update: Update, context):
@@ -23,10 +34,14 @@ def echo(update: Update, context):
     )
     query_input = dialogflow.QueryInput(text=text_input)
 
-    response = session_client.detect_intent(
-        request={"session": session, "query_input": query_input}
-    )
-    update.message.reply_text(response.query_result.fulfillment_text)
+    try:
+        response = session_client.detect_intent(
+            request={"session": session, "query_input": query_input}
+        )
+        update.message.reply_text(response.query_result.fulfillment_text)
+    except Exception as err:
+        logger.info("Бот упал с ошибкой:")
+        logger.error(err)
 
 
 if __name__ == "__main__":
@@ -39,9 +54,7 @@ if __name__ == "__main__":
     env.read_env()
     tg_bot_token = env.str("TG_BOT_TOKEN")
     google_project_id = env.str("GOOGLE_PROJECT_ID")
-
-    session_client = dialogflow.SessionsClient()
-    session = session_client.session_path(google_project_id, tg_bot_token[21:])
+    chat_id = env("TG_CHAT_ID")
 
     updater = Updater(tg_bot_token)
     dispatcher = updater.dispatcher
@@ -49,6 +62,18 @@ if __name__ == "__main__":
     dispatcher.add_handler(
         MessageHandler(Filters.text & ~Filters.command, echo)
     )
+
+    logger.addHandler(TgLogHandler(updater.bot, chat_id))
+    logger.info("Бот запущен")
+
+    try:
+        session_client = dialogflow.SessionsClient()
+        session = session_client.session_path(
+            google_project_id, tg_bot_token[21:]
+        )
+    except Exception as err:
+        logger.info("Бот упал с ошибкой:")
+        logger.error(err)
 
     updater.start_polling()
     updater.idle()
