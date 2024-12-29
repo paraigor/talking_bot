@@ -37,7 +37,7 @@ def echo(event, vk_api):
                 random_id=random.randint(1, 1000),
             )
     except Exception as err:
-        logger.info("Бот упал с ошибкой:")
+        logger.info("Бот VK упал с ошибкой:")
         logger.error(err)
 
 
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     bot = telegram.Bot(bot_token)
     logger.addHandler(TgLogHandler(bot, chat_id))
-    logger.info("Бот запущен")
+    logger.info("Бот VK запущен")
 
     try:
         session_client = dialogflow.SessionsClient()
@@ -72,5 +72,5 @@ if __name__ == "__main__":
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                 echo(event, vk_api)
     except Exception as err:
-        logger.info("Бот упал с ошибкой:")
+        logger.info("Бот VK упал с ошибкой:")
         logger.error(err)

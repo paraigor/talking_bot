@@ -40,7 +40,7 @@ def echo(update: Update, context):
         )
         update.message.reply_text(response.query_result.fulfillment_text)
     except Exception as err:
-        logger.info("Бот упал с ошибкой:")
+        logger.info("Бот Телаграм упал с ошибкой:")
         logger.error(err)
 
 
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     )
 
     logger.addHandler(TgLogHandler(updater.bot, chat_id))
-    logger.info("Бот запущен")
+    logger.info("Бот Телаграм запущен")
 
     try:
         session_client = dialogflow.SessionsClient()
@@ -72,7 +72,7 @@ if __name__ == "__main__":
             google_project_id, tg_bot_token[21:]
         )
     except Exception as err:
-        logger.info("Бот упал с ошибкой:")
+        logger.info("Бот Телаграм упал с ошибкой:")
         logger.error(err)
 
     updater.start_polling()
