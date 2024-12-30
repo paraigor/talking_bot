@@ -1,3 +1,4 @@
+import argparse
 import json
 
 from environs import Env
@@ -9,7 +10,18 @@ def main():
     env.read_env()
     google_project_id = env.str("GOOGLE_PROJECT_ID")
 
-    with open("questions.json", encoding="UTF-8") as file:
+    parser = argparse.ArgumentParser(
+        description="Скрипт для создания интентов DialogFlow"
+        )
+    parser.add_argument(
+        "json_file",
+        nargs="?",
+        default="questions.json",
+        help="Путь к json файлу"
+    )
+    args = parser.parse_args()
+
+    with open(args.json_file, encoding="UTF-8") as file:
         intents_elements = json.load(file)
 
     for intent_name, intent_messages in intents_elements.items():
