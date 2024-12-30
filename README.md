@@ -91,14 +91,13 @@ $ py vk_bot.py
 
 ### Примеры работы
 
-Пример корректной работы админки:
+Пример работы Телеграм бота:
 
-![image](https://github.com/user-attachments/assets/caadada5-6653-485e-a93d-5badd5468d4a)
+![tg_bot](https://github.com/user-attachments/assets/2b9ec7b1-fced-44a4-b64f-52b0dc77a15a)
 
-Пример работы бота:
+Пример работы VK бота:
 
-![example](https://github.com/user-attachments/assets/a97802c8-f1f1-46ad-b0ec-66bceb0a8916)
-
+![vk_bot](https://github.com/user-attachments/assets/a2c0e881-291e-4db9-988e-c180c4f10169)
 
 ### Цель проекта
 
