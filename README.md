@@ -32,7 +32,7 @@ $ gcloud iam service-accounts keys create keyfile.json --iam-account={name}@{pro
 $ py create_intents.py path/to/questions.json
 ```
 Без аргумента скрипт будет искать файл `questions.json` в тойже папке где и сам скрипт.  
-После создания интентов необходимо обучить агент. Для этого в настройках агента, в разделе `ML settings` нажать кнопку `TRAIN`.
+После создания интентов необходимо обучить агента. Для этого в настройках агента, в разделе `ML settings` нажать кнопку `TRAIN`.
 
 Структура `json` файла:
 ```
@@ -60,19 +60,19 @@ $ py create_intents.py path/to/questions.json
 Пример:
 ```
 # Токен Теленрам бота
-TG_BOT_TOKEN = "1234567890:XXXxx0Xxx-xxxX0xXXxXxx0X0XX0XXXXxXx"
+TG_BOT_TOKEN="1234567890:XXXxx0Xxx-xxxX0xXXxXxx0X0XX0XXXXxXx"
 
 # ID пользователья Телеграм для отправки сообщений мониторинга ботов
-TG_CHAT_ID = "98765432"
+TG_CHAT_ID="98765432"
 
 # Путь к файлу авторизации на платформе Google Cloud
-GOOGLE_APPLICATION_CREDENTIALS = "path/to/keyfile.json"
+GOOGLE_APPLICATION_CREDENTIALS="path/to/keyfile.json"
 
 # ID проекта на платформе Google Cloud
-GOOGLE_PROJECT_ID = "talking-bot-XXXXXX"
+GOOGLE_PROJECT_ID="talking-bot-XXXXXX"
 
 # Токен сообщества VK
-VK_GROUP_TOKEN = "vk1.a.LP_x0xXXxXXxX0xXxxXxxx0_xx0..."
+VK_GROUP_TOKEN="vk1.a.LP_x0xXXxXXxX0xXxxXxxx0_xx0..."
 ```
 
 ### Запуск
